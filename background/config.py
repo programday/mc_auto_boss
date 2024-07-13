@@ -15,6 +15,7 @@ from constant import wait_exit, root_path
 from typing import Optional, Dict, List
 from echo import EchoModel
 
+# 测试
 
 class Config(BaseModel):
     # 脚本基础配置
