@@ -26,6 +26,7 @@ from schema import Position
 from datetime import datetime
 from yolo import search_echoes
 from echo import echo
+from caculate import calculate_total_weight
 
 
 def interactive():
@@ -371,6 +372,7 @@ def transfer_to_dreamless():
         info.idleTime = now  # 重置空闲时间
         info.lastFightTime = now  # 重置最近检测到战斗时间
         info.fightTime = now  # 重置战斗时间
+        time.sleep(1)
         for i in range(5):
             forward()
             time.sleep(0.1)
@@ -423,8 +425,8 @@ def transfer() -> bool:
     control.tap(win32con.VK_F2)
     time.sleep(1)
     if not wait_text(
-        ["日志", "活跃", "挑战", "强者", "残象", "周期", "探寻", "漂泊"], timeout=5
-    ):
+        ["日志", "活跃", "挑战", "强者", "残象", "周期", "探寻", "漂泊"], timeout=7
+    ):  
         logger("未进入索拉指南", "WARN")
         control.esc()
         info.lastFightTime = datetime.now()
@@ -615,6 +617,7 @@ def wait_text(targets: str | list[str], timeout: int = 5) -> OcrResult | None:
         for target in targets:
             if text_info := search_text(result, target):
                 return text_info
+        # print(f"ocr是否识别成功:{text_info}") # ocr debug使用
 
         time.sleep(0.1)  # 每次截图和 OCR 处理之间增加一个短暂的暂停时间
     return None
@@ -634,6 +637,7 @@ def wait_home(timeout=120) -> bool:
             raise Exception("等待回到主界面超时")
         img = screenshot()
         if img is None:
+            time.sleep(0.3)
             continue
         results = ocr(img)
         if search_text(results, "特征码"):  # 特征码
@@ -648,6 +652,7 @@ def wait_home(timeout=120) -> bool:
         template = np.array(template)
         if match_template(img, template, threshold=0.9):
             return True
+        time.sleep(0.3)
 
 
 def turn_to_search() -> int | None:
@@ -1939,4 +1944,116 @@ def close_window(class_name: str = "UnrealWindow", window_title: str = "鸣潮  
         time.sleep(2)
         if win32gui.FindWindow(class_name, window_title) == 0:
             return True
+    return False
+
+# 声骇得分计算
+def role_equip_points():
+    is_echo_ebug = False  # Debug打印开关
+
+    if not config.EnhancedComputing:
+        logger("未启动该功能", "WARN")
+        return False
+
+    logger("默认按正常比例适配计算，如需计算特殊角色，请前往配置文件中配置", "WARN")
+    logger("计算需要在角色声骇详情页面进行，请确保前往顺序为 按下C -> 属性详情 -> 声骇 -> 点击右侧声骇 即可。请确保处于该页面，否则可能识别失败。","WARN")
+    logger("计算需要在角色声骇详情页面进行，请确保前往顺序为 按下C -> 属性详情 -> 声骇 -> 点击右侧声骇 即可。请确保处于该页面，否则可能识别失败。","WARN")
+    logger("计算需要在角色声骇详情页面进行，请确保前往顺序为 按下C -> 属性详情 -> 声骇 -> 点击右侧声骇 即可。请确保处于该页面，否则可能识别失败。","WARN")
+    time.sleep(1)
+
+    logger("目前支持特殊计算角色：\n -今夕 \n - 忌炎  ")
+    role_name = config.ComputeRoleName
+    max_attempts = 10
+    retry_interval = 5
+
+    logger("共进行{}次尝试，每隔{}秒进行一次识别，请在一次识别后手动选择另一个声骇".format(max_attempts, retry_interval), "DEBUG")
+    grade  = 0
+    compute_static = config.ComputeTactic
+    if len(compute_static) < 4:
+        logger("声骇计算配置错误，请检查配置文件", "ERROR")
+
+    for attempt in range(max_attempts):
+        img = screenshot()
+        if img is None:
+            time.sleep(0.2)
+            continue
+
+        img_entry = img[205:320, 965:1220]
+        img_pil2 = img[100:160, 930:1000]
+
+        result = ocr(img_pil2)
+
+        up = 0
+        for item in result:
+            if "+" in item.text:
+                try:
+                    up = int(item.text.split("+")[1])
+                except ValueError:
+                    up = -1
+                break
+            else:
+                up = -1
+        if up == -1:
+            logger("声骸等级识别失败，请检查识别内容", "WARN")
+            print(f"{result}")
+            return False
+
+        result = ocr(img_entry)
+
+        if not result and up > 5 :
+            for _ in range(3):
+                logger("声骸识别失败，尝试重新识别", "WARN")
+                result = ocr(img_entry)
+                if result:
+                    break
+
+            if not result:
+                print(f"{result}")
+                print(f"{up}")
+                logger(f"声骸识别失败，请检查识别内容{up},{result}", "WARN")
+                return False
+        if up < 10:
+            result = result[:2]
+            grade = 0
+        elif up < 15:
+            result = result[:4]
+            grade = 1
+        elif up < 20:
+            result = result[:6]
+            grade = 2
+        elif up < 25:
+            result = result[:8]
+            grade = 3
+        elif up == 25:
+            result = result[:10]
+            grade = -1
+
+        paired_results = []
+        for i in range(0, len(result), 2):
+            if i + 1 < len(result):
+                if "骸" in result[i].text:
+                    break  # 检测到“骸”字，结束循环
+                if "攻击" in result[i].text and "%" in result[i+1].text:
+                    paired_results.append(("大" + result[i].text, result[i+1].text))
+                else:
+                    paired_results.append((result[i].text, result[i+1].text))
+        if not paired_results and up < 5:
+            logger("当前声骸等级{up}，声骇等级过低，无法计算，请重新选择", "WARN")
+            time.sleep(retry_interval)
+            continue
+
+        print("\n---------------------------------------------------------- \n")
+        total_weight, adjusted_total_weight, max_total_weight, max_adjusted_total_weight  = calculate_total_weight(paired_results, role_name)
+        print(f"当前计分模型中，伤害型角色通用最高分为228.2,特殊伤害加成提升最高分为251.4,可自行参考比对")
+        if adjusted_total_weight is not None:
+            print(f"当前声骸等级{up},角色{role_name}本套声骇上限最高分为：{max_adjusted_total_weight}，角色{role_name}计算得分为：{adjusted_total_weight}")
+        else:
+            print(f"当前声骸等级{up},本套声骇上限最高分为：{max_total_weight}，计算得分为：{total_weight}")
+        if grade != -1:
+            if role_name == "默认" or adjusted_total_weight is None:
+                print(f"当前声骇等级{up}，计算得分为：{total_weight}, 期望分为：{compute_static[grade]}，请自行确认比较")
+            else :
+                print(f"当前声骇等级{up}，计算得分为：{max_adjusted_total_weight}, 期望分为：{compute_static[grade]}，请自行确认比较")
+        print("\n----------------------------------------------------------- \n")
+        time.sleep(retry_interval)
+
     return False

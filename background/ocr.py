@@ -5,6 +5,7 @@
 @time: 2024/6/5 下午4:36
 @author SuperLazyDog
 """
+import os
 import time
 import paddle
 from paddleocr import PaddleOCR
@@ -24,9 +25,13 @@ if paddle.is_compiled_with_cuda() and paddle.get_device().startswith(
     use_gpu = True
 else:
     use_gpu = False
+    os.environ['FLAGS_use_mkldnn'] = '1'  # CPU启用mkldnn加速
 
 if current_process().name == "task":
-    logger("OCR初始化中...")
+    if use_gpu:
+        logger("正在使用GPU加速，OCR初始化中...")
+    else:
+        logger("正在使用CPU，OCR初始化中...")
     logging.disable(logging.WARNING)  # 关闭WARNING日志的打印
     ocrIns = PaddleOCR(
         use_angle_cls=False,
@@ -48,6 +53,7 @@ def ocr(img: np.ndarray) -> list[OcrResult]:
             time.sleep(wait_time)
     last_time = time.time()
     results = ocrIns.ocr(img)[0]
+    # print(f"ocr当前扫描结果{results}") # ocr debug使用
     if not results:
         return []
     res = []
