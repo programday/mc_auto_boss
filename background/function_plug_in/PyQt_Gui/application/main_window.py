@@ -10,9 +10,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout
 from qfluentwidgets import (SplashScreen, SubtitleLabel, setFont, MSFluentWindow)
 
-
-
-from function_plug_in.PyQt_Gui.application.programme_models.programme_kind.translator import TranslatorModel
+from function_plug_in.PyQt_Gui.application.programme_models.programme_kind.translator import ProgrammeKindTranslatorModel
 from function_plug_in.PyQt_Gui.application.resource.common.config import cfg
 from function_plug_in.PyQt_Gui.application.views.home_interface import HomeInterface
 
@@ -43,7 +41,7 @@ class McMainWindow(MSFluentWindow):
         self.init_window()
 
         # create sub interface
-        self.translator_model = TranslatorModel()
+        self.translator_model = ProgrammeKindTranslatorModel()
         self.translator_model.home.programme = HomeInterface(self)
         self.translator_model.course.programme = Widget('教程', self)
         self.translator_model.common_problem.programme = Widget('常见问题', self)

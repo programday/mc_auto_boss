@@ -5,7 +5,7 @@ from qfluentwidgets import FluentIcon as FIF
 from function_plug_in.PyQt_Gui.application.programme_models.programme_kind.model import ProgrammeKind
 
 
-class TranslatorModel(QObject):
+class ProgrammeKindTranslatorModel(QObject):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.home = ProgrammeKind(name=self.tr('主页'), position=ProgrammeKind.Position.TOP, fluent_icon=FIF.HOME)

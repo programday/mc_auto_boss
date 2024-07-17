@@ -5,10 +5,11 @@
 # @File : tasks.py
 # @Project : mc_auto_boss
 
-from utils.command import subprocess_with_stdout
+import os
 import subprocess
 import sys
-import os
+
+from utils.command import subprocess_with_stdout
 
 
 def is_windows_terminal_available():
@@ -20,10 +21,13 @@ def is_windows_terminal_available():
 
 def execute_command_in_new_environment(command, use_windows_terminal=False):
     """
-    在新的环境中执行给定的命令。
+    在新的环境中执行给定的命令
+
+    无打包文件
+
     """
     executable_path = os.path.abspath("./mc_auto_boss.exe") if getattr(sys, 'frozen', False) else sys.executable
-    main_script = [] if getattr(sys, 'frozen', False) else ["main.py"]
+    main_script = [] if getattr(sys, 'frozen', False) else ["../../main.py"]
 
     if use_windows_terminal:
         # 尝试使用 Windows Terminal 执行命令

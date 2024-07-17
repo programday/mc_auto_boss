@@ -7,14 +7,13 @@
 
 import numpy as np
 from PIL import Image
-from PyQt5.QtCore import Qt, QRectF
-from PyQt5.QtGui import QPixmap, QPainter, QColor, QBrush, QPainterPath, QLinearGradient, QIcon, QImage
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QGraphicsDropShadowEffect, QHBoxLayout
-from qfluentwidgets import ScrollArea, isDarkTheme, FluentIcon
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPainter, QPainterPath, QImage
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QGraphicsDropShadowEffect
+from qfluentwidgets import ScrollArea
 
-from tasks.base.tasks import start_task
+from ..programme_models.basic_input_view.translator import BasicInputViewTranslator
 from ..resource.common.style_sheet import StyleSheet
-from ..resource.components.card.link_card import LinkCardView
 from ..resource.components.card.sample_card_view import SampleCardView
 
 
@@ -42,8 +41,8 @@ class BannerWidget(QWidget):
         self.banner = None
         self.path = None
 
-        self.v_box_layout.setContentsMargins(40, 30, 0, 0)  # 设置内容边距为0
-        self.v_box_layout.setSpacing(10)  # 设置控件间距为0
+        self.v_box_layout.setContentsMargins(40, 30, 0, 0)
+        self.v_box_layout.setSpacing(10)
 
         self.v_box_layout.setAlignment(Qt.AlignLeft | Qt.AlignTop)
 
@@ -53,7 +52,7 @@ class BannerWidget(QWidget):
         #     FluentIcon.GITHUB,
         #     self.tr('GitHub repo'),
         #     self.tr('喜欢就给个星星吧\n拜托求求你啦|･ω･)'),
-        #     "https://github.com/moesnow/March7thAssistant",
+        #     "https://github.com/programday/mc_auto_boss",
         # )
 
     def paintEvent(self, e):
@@ -82,6 +81,8 @@ class HomeInterface(ScrollArea):
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
+        self.translator_model = BasicInputViewTranslator()
+
         self.banner = BannerWidget(self)
         self.view = QWidget(self)
         self.v_box_layout = QVBoxLayout(self.view)
@@ -104,33 +105,14 @@ class HomeInterface(ScrollArea):
         self.v_box_layout.setAlignment(Qt.AlignTop)
 
     def load_samples(self):
-        basic_input_view = SampleCardView(self.tr("功能 >"), self.view)
-        basic_input_view.setStyleSheet("font-size: 20px; font-weight: bold; color: black;")
+        basic_view = SampleCardView(self.tr("功能 >"), self.view)
+        basic_view.setStyleSheet("font-size: 20px; font-weight: bold; color: black;")
+        for name, basic_input_view_translator in self.translator_model.views.items():
+            # 添加功能板块
+            basic_view.add_sample_card(
+                icon=basic_input_view_translator.icon,
+                title=basic_input_view_translator.title,
+                action=basic_input_view_translator.action
+            )
 
-        basic_input_view.add_sample_card(
-            icon="./application/resource/images/Background 1.jpg",
-            title="t1",
-            action=lambda: start_task("main")
-        )
-        basic_input_view.add_sample_card(
-            icon="./application/resource/images/Background 1.jpg",
-            title="t2",
-            action=lambda: start_task("main")
-        )
-        basic_input_view.add_sample_card(
-            icon="./application/resource/images/Background 1.jpg",
-            title="t3",
-            action=lambda: start_task("main")
-        )
-        basic_input_view.add_sample_card(
-            icon="./application/resource/images/Background 1.jpg",
-            title="t4",
-            action=lambda: start_task("main")
-        )
-        basic_input_view.add_sample_card(
-            icon="./application/resource/images/Background 1.jpg",
-            title="t5",
-            action=lambda: start_task("main")
-        )
-
-        self.v_box_layout.addWidget(basic_input_view)
+        self.v_box_layout.addWidget(basic_view)
