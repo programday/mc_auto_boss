@@ -32,17 +32,17 @@ def wait_exit():
 class_name = "UnrealWindow"
 window_title = "鸣潮  "
 hwnd = win32gui.FindWindow("UnrealWindow", "鸣潮  ")
-if hwnd == 0:
-    print("未找到游戏窗口")
-    wait_exit()
-left, top, right, bot = win32gui.GetClientRect(hwnd)
-w = right - left
-h = bot - top
-scale_factor = get_scale_factor()
-width_ratio = w / 1920 * scale_factor
-height_ratio = h / 1080 * scale_factor
-real_w = int(w * scale_factor)
-real_h = int(h * scale_factor)
+# if hwnd == 0:
+#     print("未找到游戏窗口")
+#     wait_exit()
+# left, top, right, bot = win32gui.GetClientRect(hwnd)
+# w = right - left
+# h = bot - top
+# scale_factor = get_scale_factor()
+# width_ratio = w / 1920 * scale_factor
+# height_ratio = h / 1080 * scale_factor
+# real_w = int(w * scale_factor)
+# real_h = int(h * scale_factor)
 root_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # 判断 root_path 中是否包含中文或特殊字符
 special_chars_pattern = r"[\u4e00-\u9fa5\!\@\#\$\%\^\&\*\(\)]"

@@ -21,6 +21,7 @@ if "CUDAExecutionProvider" in rt.get_available_providers():
 elif "DmlExecutionProvider" in rt.get_available_providers():
     provider = ["DmlExecutionProvider"]
 else:
+
     provider = ["CPUExecutionProvider"]
 
 model = None

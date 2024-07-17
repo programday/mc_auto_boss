@@ -15,6 +15,7 @@ from constant import wait_exit, root_path
 from typing import Optional, Dict, List
 from echo import EchoModel
 
+
 # 测试
 
 class Config(BaseModel):
@@ -166,7 +167,7 @@ if len(config.TargetBoss) == 0:
 if config.EchoLock:
     if os.path.exists(os.path.join(root_path, "echo_config.yaml")):
         with open(
-            os.path.join(root_path, "echo_config.yaml"), "r", encoding="utf-8"
+                os.path.join(root_path, "echo_config.yaml"), "r", encoding="utf-8"
         ) as f:
             echo_config_data = yaml.safe_load(f)
             config.EchoLockConfig = echo_config_data.get("EchoLockConfig", {})
