@@ -4,7 +4,6 @@
 # @Email : program.day.zzb@gmail.com
 # @File : tasks.py
 # @Project : mc_auto_boss
-
 import os
 import subprocess
 import sys

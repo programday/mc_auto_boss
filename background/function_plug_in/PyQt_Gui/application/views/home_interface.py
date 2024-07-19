@@ -19,13 +19,14 @@ from ..resource.components.card.sample_card_view import SampleCardView
 
 class BannerWidget(QWidget):
     """ Banner widget """
+    banner_image_path = './application/resource/images/Background 1.jpg'
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
-        self.setFixedHeight(436)
-
+        self.setFixedHeight(336)
+        version = 'v' + '1.0.0'
         self.v_box_layout = QVBoxLayout(self)
-        self.gallery_label = QLabel('  天工宝库 \n mc_auto_boss', self)
+        self.gallery_label = QLabel(f' 天工宝库\u2009{version} \nmc_auto_boss', self)
         self.gallery_label.setStyleSheet("color: white;font-size: 30px; font-weight: 600;")
         self.gallery_label.setObjectName('gallery_label')
         self.v_box_layout.addWidget(self.gallery_label)
@@ -37,7 +38,7 @@ class BannerWidget(QWidget):
         shadow.setOffset(1.2, 1.2)  # 阴影偏移量
         self.gallery_label.setGraphicsEffect(shadow)
 
-        self.img = Image.open('./application/resource/images/Background 1.jpg')
+        self.img = Image.open(self.banner_image_path)
         self.banner = None
         self.path = None
 

@@ -1,5 +1,6 @@
 -i https://mirrors.cloud.tencent.com/pypi/simple
 
+
 pynput
 opencv-python
 pywin32
@@ -15,5 +16,7 @@ colorama
 requests
 pyautogui==0.9.50
 psutil
-PyQt-Fluent-Widgets[full]
 
+PyQt-Fluent-Widgets[full]
+markdown
+pyuac

@@ -5,11 +5,12 @@
 @time: 2024/6/5 上午8:24
 @author SuperLazyDog
 """
-import win32gui
-import sys
-from ctypes import windll
 import os
 import re
+import sys
+from ctypes import windll
+
+import win32gui
 
 
 def get_scale_factor():
@@ -32,8 +33,8 @@ def wait_exit():
 class_name = "UnrealWindow"
 window_title = "鸣潮  "
 hwnd = win32gui.FindWindow("UnrealWindow", "鸣潮  ")
-# if hwnd == 0:
-#     print("未找到游戏窗口")
+if hwnd == 0:
+    print("未找到游戏窗口")
 #     wait_exit()
 # left, top, right, bot = win32gui.GetClientRect(hwnd)
 # w = right - left

@@ -13,7 +13,9 @@ paddlepaddle
 paddleocr<2.8.0
 colorama
 requests
-psutil
 pyautogui==0.9.50
 psutil
+
 PyQt-Fluent-Widgets[full]
+markdown
+pyuac

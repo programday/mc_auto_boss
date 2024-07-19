@@ -11,12 +11,13 @@ from tasks.base.tasks import start_task
 
 
 class BasicInputViewTranslator(QObject):
+
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.views = {
-            'brush_boos': BasicInputView(title='刷boos', action=lambda: start_task("main"), icon="./application/resource/images/Background 1.jpg"),
-            'compound_vo_sk': BasicInputView(title='合成声骸', action=lambda: start_task("main"), icon="./application/resource/images/Background 1.jpg"),
-            'lock_vo_sk': BasicInputView(title='锁定声骸', action=lambda: start_task("main"), icon="./application/resource/images/Background 1.jpg"),
-            'score_calculation_vo_sk': BasicInputView(title='得分计算', action=lambda: start_task("main"), icon="./application/resource/images/Background 1.jpg"),
-            'stop_run': BasicInputView(title='停止运行', action=lambda: start_task("main"), icon="./application/resource/images/Background 1.jpg")
+            'brush_boos': BasicInputView(title='刷boos', action=lambda x: start_task("main"), icon="./application/resource/images/Background 1.jpg"),
+            'compound_vo_sk': BasicInputView(title='合成声骸', action=lambda x: start_task("main"), icon="./application/resource/images/Background 1.jpg"),
+            'lock_vo_sk': BasicInputView(title='锁定声骸', action=lambda x: start_task("main"), icon="./application/resource/images/Background 1.jpg"),
+            'score_calculation_vo_sk': BasicInputView(title='得分计算', action=lambda x: start_task("main"), icon="./application/resource/images/Background 1.jpg"),
+            'stop_run': BasicInputView(title='停止运行', action=lambda x: start_task("main"), icon="./application/resource/images/Background 1.jpg")
         }

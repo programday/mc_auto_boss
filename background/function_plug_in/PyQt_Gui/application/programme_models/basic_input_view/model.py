@@ -4,7 +4,7 @@
 # @Email : program.day.zzb@gmail.com
 # @File : model.py
 # @Project : mc_auto_boss
-from typing import Optional
+from typing import Optional, Callable
 
 from pydantic import ConfigDict, Field
 from pydantic.dataclasses import dataclass
@@ -14,4 +14,4 @@ from pydantic.dataclasses import dataclass
 class BasicInputView:
     icon: Optional[str] = Field(None, title='图标')
     title: str = Field(title='功能名称')
-    action: Optional[callable] = Field(None, title='功能行为')
+    action: Optional[Callable[[str], None]] = Field(None, title='功能行为')

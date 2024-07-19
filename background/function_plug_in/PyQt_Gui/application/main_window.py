@@ -12,6 +12,7 @@ from qfluentwidgets import (SplashScreen, SubtitleLabel, setFont, MSFluentWindow
 
 from function_plug_in.PyQt_Gui.application.programme_models.programme_kind.translator import ProgrammeKindTranslatorModel
 from function_plug_in.PyQt_Gui.application.resource.common.config import cfg
+from function_plug_in.PyQt_Gui.application.views.help_interface import HelpInterface
 from function_plug_in.PyQt_Gui.application.views.home_interface import HomeInterface
 
 
@@ -29,6 +30,7 @@ class Widget(QFrame):
 
 
 class McMainWindow(MSFluentWindow):
+    window_icon_path: str = './application/resource/images/Background 1.jpg'
 
     def __init__(self):
         super().__init__()
@@ -43,8 +45,7 @@ class McMainWindow(MSFluentWindow):
         # create sub interface
         self.translator_model = ProgrammeKindTranslatorModel()
         self.translator_model.home.programme = HomeInterface(self)
-        self.translator_model.course.programme = Widget('教程', self)
-        self.translator_model.common_problem.programme = Widget('常见问题', self)
+        self.translator_model.course.programme = HelpInterface(self)
         self.translator_model.update_log.programme = Widget('更新', self)
         self.translator_model.setting.programme = Widget('设置', self)
 
@@ -60,7 +61,6 @@ class McMainWindow(MSFluentWindow):
         interfaces = [
             self.translator_model.home,
             self.translator_model.course,
-            self.translator_model.common_problem,
             self.translator_model.update_log,
             self.translator_model.setting,
         ]
@@ -77,10 +77,11 @@ class McMainWindow(MSFluentWindow):
         self.navigationInterface.setCurrentItem(self.translator_model.home.programme.objectName())
 
     def init_window(self):
-        self.resize(960, 780)
-        self.setMinimumWidth(760)
+        # 调整初始窗口大小
+        self.resize(944, 680)
+        self.setMinimumWidth(660)
         # 设置程序角标，启动界面
-        self.setWindowIcon(QIcon(':/gallery/xiaoxiwang.jpg'))
+        self.setWindowIcon(QIcon(self.window_icon_path))
         # 设置程序标题
         self.setWindowTitle('mc_auto_boss')
         # 云母效果
