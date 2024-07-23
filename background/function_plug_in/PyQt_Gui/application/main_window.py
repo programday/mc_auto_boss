@@ -10,10 +10,11 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QFrame, QHBoxLayout
 from qfluentwidgets import (SplashScreen, SubtitleLabel, setFont, MSFluentWindow)
 
+from function_plug_in.PyQt_Gui.application.common.gui.gui_config import cfg
 from function_plug_in.PyQt_Gui.application.programme_models.programme_kind.translator import ProgrammeKindTranslatorModel
-from function_plug_in.PyQt_Gui.application.resource.common.config import cfg
 from function_plug_in.PyQt_Gui.application.views.help_interface import HelpInterface
 from function_plug_in.PyQt_Gui.application.views.home_interface import HomeInterface
+from function_plug_in.PyQt_Gui.application.views.setting_interface import SettingInterface
 
 
 class Widget(QFrame):
@@ -30,7 +31,7 @@ class Widget(QFrame):
 
 
 class McMainWindow(MSFluentWindow):
-    window_icon_path: str = './application/resource/images/Background 1.jpg'
+    window_icon_path: str = './application/resource/images/xiaoxiwang.jpg'
 
     def __init__(self):
         super().__init__()
@@ -46,8 +47,9 @@ class McMainWindow(MSFluentWindow):
         self.translator_model = ProgrammeKindTranslatorModel()
         self.translator_model.home.programme = HomeInterface(self)
         self.translator_model.course.programme = HelpInterface(self)
+
         self.translator_model.update_log.programme = Widget('更新', self)
-        self.translator_model.setting.programme = Widget('设置', self)
+        self.translator_model.setting.programme = SettingInterface(self)
 
         self.init_navigation()
         self.splash_screen.finish()

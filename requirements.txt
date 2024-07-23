@@ -20,3 +20,4 @@ psutil
 PyQt-Fluent-Widgets[full]
 markdown
 pyuac
+ruamel.yaml

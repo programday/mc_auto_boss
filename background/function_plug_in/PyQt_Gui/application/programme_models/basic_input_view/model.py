@@ -14,4 +14,4 @@ from pydantic.dataclasses import dataclass
 class BasicInputView:
     icon: Optional[str] = Field(None, title='图标')
     title: str = Field(title='功能名称')
-    action: Optional[Callable[[str], None]] = Field(None, title='功能行为')
+    action: Optional[Callable[[], None]] = Field(None, title='功能行为')

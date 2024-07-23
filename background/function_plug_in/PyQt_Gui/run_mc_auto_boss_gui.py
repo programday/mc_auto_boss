@@ -9,7 +9,7 @@ import sys
 
 from qfluentwidgets import FluentTranslator
 
-from function_plug_in.PyQt_Gui.application.resource.common.config import cfg
+from function_plug_in.PyQt_Gui.application.common.gui.gui_config import cfg
 
 # 将当前工作目录设置为程序所在的目录，确保无论从哪里执行，其工作目录都正确设置为程序本身的位置，避免路径错误。
 os.chdir(os.path.dirname(sys.executable) if getattr(sys, 'frozen', False) else os.path.dirname(os.path.abspath(__file__)))

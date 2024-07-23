@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout, QStackedWidget, QLabel, QSpace
 from qfluentwidgets import ScrollArea, Pivot
 
 from background.status import logger
-from function_plug_in.PyQt_Gui.application.resource.common.style_sheet import StyleSheet
+from function_plug_in.PyQt_Gui.application.common.gui.style_sheet import StyleSheet
 
 
 class HelpInterface(ScrollArea):
@@ -52,7 +52,7 @@ class HelpInterface(ScrollArea):
         # 隐藏水平滚动条
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         # 设置对象名称用于样式应用
-        self.setObjectName('help_interface')
+        self.setObjectName('HelpInterface')
         #
         self.scroll_widget.setObjectName('scroll_widget')
         self.help_label.setObjectName('help_label')

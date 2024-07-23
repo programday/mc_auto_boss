@@ -12,14 +12,14 @@ from PyQt5.QtGui import QPainter, QPainterPath, QImage
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QGraphicsDropShadowEffect
 from qfluentwidgets import ScrollArea
 
+from function_plug_in.PyQt_Gui.application.common.gui.style_sheet import StyleSheet
+from ..common.components.card.sample_card_view import SampleCardView
 from ..programme_models.basic_input_view.translator import BasicInputViewTranslator
-from ..resource.common.style_sheet import StyleSheet
-from ..resource.components.card.sample_card_view import SampleCardView
 
 
 class BannerWidget(QWidget):
     """ Banner widget """
-    banner_image_path = './application/resource/images/Background 1.jpg'
+    banner_image_path = './application/resource/images/bg_jinxi.jpg'
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)

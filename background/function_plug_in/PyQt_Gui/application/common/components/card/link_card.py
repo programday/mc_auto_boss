@@ -6,11 +6,11 @@
 # @Project : mc_auto_boss
 
 from PyQt5.QtCore import Qt, QUrl
-from PyQt5.QtGui import QPixmap, QDesktopServices
+from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QFrame, QLabel, QVBoxLayout, QWidget, QHBoxLayout
 from qfluentwidgets import IconWidget, FluentIcon, TextWrap, SingleDirectionScrollArea
 
-from function_plug_in.PyQt_Gui.application.resource.common.style_sheet import StyleSheet
+from function_plug_in.PyQt_Gui.application.common.gui.style_sheet import StyleSheet
 
 
 class LinkCard(QFrame):

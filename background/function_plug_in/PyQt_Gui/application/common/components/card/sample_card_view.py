@@ -1,10 +1,9 @@
-import base64
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QGraphicsOpacityEffect, QAction
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QGraphicsOpacityEffect
+from qfluentwidgets import IconWidget, FlowLayout, CardWidget
 
-from qfluentwidgets import RoundMenu, IconWidget, FlowLayout, CardWidget, InfoBarIcon, TeachingTip, TeachingTipTailPosition
 from background.status import logger
-from function_plug_in.PyQt_Gui.application.resource.common.style_sheet import StyleSheet
+from function_plug_in.PyQt_Gui.application.common.gui.style_sheet import StyleSheet
 
 
 class SampleCard(CardWidget):
